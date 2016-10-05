@@ -1,0 +1,5 @@
+# pgunicoll extension
+comment = 'Provides Unicode Collation Algorithm support'
+default_version = '1.0.0'
+module_pathname = '$libdir/pgunicoll'
+relocatable = true
