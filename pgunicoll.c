@@ -1,3 +1,28 @@
+/*
+
+pgunicoll, a postgresql extension to sort with the UCA. This extension is heavily based
+on the MetaBrainz foundation postgresql-musicbrainz-collate
+<https://github.com/metabrainz/postgresql-musicbrainz-collate> extension.
+
+Copyright 2010  MetaBrainz Foundation
+Copyright 2016  Kite Development & Consulting Ltd
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -9,11 +34,9 @@
 #include "postgres.h"
 #include "fmgr.h"
 
+#ifdef PG_MODULE_MAGIC
 PG_MODULE_MAGIC;
-
-Datum pgunicoll (PG_FUNCTION_ARGS);
-
-PG_FUNCTION_INFO_V1(pgunicoll);
+#endif
 
 #define PREALLOC_SIZE 256
 
@@ -61,10 +84,10 @@ unicode_from_pg_text (text *pg_input)
 }
 
 static int32_t
-sortkey_from_unicode (UChar *input, uint8_t **output)
+sortkey_from_unicode (UChar *input, const char *loc, uint8_t **output)
 {
     UErrorCode status = U_ZERO_ERROR;
-    UCollator * collator = ucol_open ("", &status);
+    UCollator * collator = ucol_open (loc, &status);
     int32_t size;
 
     if (icu_failure (status))
@@ -95,6 +118,8 @@ sortkey_from_unicode (UChar *input, uint8_t **output)
     return size;
 }
 
+PG_FUNCTION_INFO_V1(pgunicoll);
+
 Datum
 pgunicoll (PG_FUNCTION_ARGS)
 {
@@ -114,7 +139,9 @@ pgunicoll (PG_FUNCTION_ARGS)
         PG_RETURN_NULL();
     }
 
-    sortkeylen = sortkey_from_unicode (unicode, &sortkey);
+    char *loc = (char *) VARDATA(PG_GETARG_TEXT_P(1));
+
+    sortkeylen = sortkey_from_unicode (unicode, loc, &sortkey);
     if (!sortkeylen)
     {
         PG_RETURN_NULL();

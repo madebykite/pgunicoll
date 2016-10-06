@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/!svn/ver/1291447/services/musicbrainz/trunk/postgresql-musicbrainz-collate/test/expected
+END
+collate.out
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/!svn/ver/1291447/services/musicbrainz/trunk/postgresql-musicbrainz-collate/test/expected/collate.out
+END

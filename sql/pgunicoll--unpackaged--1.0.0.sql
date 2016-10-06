@@ -1,2 +1,2 @@
-ALTER EXTENSION pgunicoll ADD FUNCTION pgunicoll(text);
+ALTER EXTENSION pgunicoll ADD FUNCTION pgunicoll(text, text);
 
