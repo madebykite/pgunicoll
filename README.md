@@ -78,8 +78,8 @@ License
 
 pgunicoll, a postgresql extension to sort with the UCA. This extension is heavily based on the MetaBrainz foundation [postgresql-musicbrainz-collate](https://github.com/metabrainz/postgresql-musicbrainz-collate) extension.
 
-Copyright 2010  MetaBrainz Foundation
-Copyright 2016  Kite Development & Consulting Ltd
+* Copyright 2010  MetaBrainz Foundation
+* Copyright 2016  Kite Development & Consulting Ltd
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
